@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andy Knight - CV</title>
+    <style>
+        :root {
+            --bg-body: #0b1120;
+            --bg-card: #151e32;
+            --border-color: #2a3854;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-gold: #f59e0b;
+            --accent-gold-hover: #d97706;
+            --accent-blue: #38bdf8;
+            --bullet-color: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            padding: 30px 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .cv-container {
+            width: 100%;
+            max-width: 850px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 45px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .btn {
+            background-color: var(--accent-gold);
+            color: #0f172a;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-gold-hover);
+            transform: translateY(-1px);
+        }
+
+        header {
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-info span:not(:last-child)::after {
+            content: "•";
+            margin-left: 12px;
+            color: var(--border-color);
+        }
+
+        .contact-info a, .inline-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .contact-info a:hover, .inline-link:hover {
+            text-decoration: underline;
+            color: #7dd3fc;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-gold);
+            margin-top: 32px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 14px;
+        }
+
+        .job-block {
+            margin-bottom: 20px;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 18px;
+            margin-bottom: 4px;
+        }
+
+        .job-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .job-date, .date {
+            font-size: 14px;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .company {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 16px;
+            padding-left: 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 14.5px;
+        }
+
+        li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--bullet-color);
+            font-weight: bold;
+            font-size: 18px;
+            line-height: 1;
+            top: 2px;
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        /* Toast Notification Styling */
+        #toast {
+            visibility: hidden;
+            min-width: 240px;
+            background-color: var(--accent-gold);
+            color: #0f172a;
+            text-align: center;
+            border-radius: 6px;
+            padding: 12px 16px;
+            position: fixed;
+            z-index: 1000;
+            bottom: 30px;
+            right: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 40px;
+        }
+
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+            }
+
+            .cv-container {
+                border: none !important;
+                box-shadow: none !important;
+                background-color: #ffffff !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+
+            .action-bar, #toast {
+                display: none !important;
+            }
+
+            h1 {
+                color: #000000 !important;
+            }
+
+            .section-title {
+                color: #b45309 !important;
+                border-bottom: 1px solid #cccccc !important;
+            }
+
+            p, li, .contact-info, .company {
+                color: #222222 !important;
+            }
+
+            .job-title, li strong {
+                color: #000000 !important;
+            }
+
+            .job-date, .date, .contact-info a, .inline-link {
+                color: #0369a1 !important;
+            }
+
+            li::before {
+                color: #b45309 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cv-container">
+    <div class="action-bar">
+        <button class="btn" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            Print / Save PDF
+        </button>
+    </div>
+
+    <header>
+        <h1>ANDY KNIGHT</h1>
+        <div class="contact-info">
+            <span>Flat 20 Attlee Court, 1230 High Road, London N20 0BF</span>
+            <span>07751 637972</span>
+            <span><a href="mailto:andyknightguitarist@hotmail.co.uk" onclick="handleEmailClick(event)">andyknightguitarist@hotmail.co.uk</a></span>
+        </div>
+    </header>
+
+    <div class="section-title">Professional Profile</div>
+    <p>Enthusiastic, hands-on musician, guitar repair technician, and customer service specialist with over 30 years of playing experience. Combines a technical passion for guitars, setups, and gear with a proven, practical problem-solving mindset built across premises caretaking, music retail, and customer support. Dependable, logical, and customer-focused, with a background in stock handling, gear diagnostics, and client advice.</p>
+
+    <div class="section-title">Core Competencies & Technical Skills</div>
+    <ul>
+        <li><strong>Guitar Tech & Lutherie:</strong> Neck relief setup, action & intonation, nut cutting, wiring/circuit troubleshooting, pickup adjustments, and general instrument maintenance.</li>
+        <li><strong>Customer Service & Advice:</strong> Clear, down-to-earth communication, product advice, resolving customer queries via email/chat/phone, and handling returns or stock issues.</li>
+        <li><strong>Operational Problem-Solving:</strong> Logical diagnostic mindset, preventative maintenance, health & safety compliance.</li>
+        <li><strong>Stock & Warehouse Management:</strong> Inventory monitoring, stock control, order processing, and receiving goods.</li>
+    </ul>
+
+    <div class="section-title">Relevant Experience</div>
+
+    <div class="job-block">
+        <div class="job-header">
+            <span class="job-title">Caretaker / Premises Lead</span>
+            <span class="job-date">August 2023 – Present</span>
+        </div>
+        <div class="company">Underhill Primary School & Children's Centre, Barnet (Facilities Support across Frith Manor & Colindale: 2019 – 2023)</div>
+        <ul>
+            <li>Responsible for site maintenance, security, health & safety compliance, and facilities diagnostics.</li>
+            <li>Apply a systematic "fix-it" approach to diagnose structural, mechanical, and various other issues.</li>
+            <li>Manage stock inventory for site supplies, handle deliveries, and coordinate directly with external contractors and suppliers.</li>
+            <li>Exercise high independence, daily task prioritisation, and time management in a fast-paced environment.</li>
+        </ul>
+    </div>
+
+    <div class="job-block">
+        <div class="job-header">
+            <span class="job-title">Guitar Technician (<a href="https://www.profrettoneworks.com/" target="_blank" rel="noopener noreferrer" class="inline-link">Profret Toneworks</a>) & Professional Musician</span>
+            <span class="job-date">2025 – Present</span>
+        </div>
+        <div class="company">London / UK</div>
+        <ul>
+            <li>Offer custom setup, repair, electronic troubleshooting, and maintenance services for guitars and basses.</li>
+            <li>Perform live regularly across the UK, maintaining deep familiarity with modern live performance setups, pedalboard routing, amplification, and stage gear.</li>
+            <li>Maintain up-to-date knowledge of guitar specifications, hardware components, and market trends.</li>
+        </ul>
+    </div>
+
+    <div class="job-block">
+        <div class="job-header">
+            <span class="job-title">Professional Musician & Guitar Teacher (Self-Employed)</span>
+            <span class="job-date">2015 – 2019</span>
+        </div>
+        <ul>
+            <li>Delivered private guitar instruction, developing tailored lesson plans and fostering technical proficiency for students of varying ages and skill levels.</li>
+            <li>Performed professionally as a live musician, maintaining rigorous gig schedules and mastering real-world stage performance and gear management.</li>
+        </ul>
+    </div>
+
+    <div class="section-title">CUSTOMER SERVICE & RETAIL BACKGROUND (1999 – 2015)</div>
+    <ul>
+        <li><strong>Andertons Music Co. (Guildford):</strong> Customer support and retail guidance for musicians across varied genres and skill levels.</li>
+        <li><strong>Exeter Family Friendly & SITEL:</strong> Telephone- and email-based customer service administration, case logging, and query management.</li>
+        <li><strong>Manson’s Guitar Shop (Exeter):</strong> Customer-facing sales, advising players on instruments, amplification, and accessories, and managing in-store customer enquiries.</li>
+        <li><strong>Timpson (Exeter):</strong> Branch retail, precision repair work, key cutting, and face-to-face customer interaction.</li>
+        <li><strong>GK Signs (Exeter & National):</strong> Precision graphic fitting, site installation, and client delivery across England and Wales.</li>
+    </ul>
+
+    <div class="section-title">Education & Qualifications</div>
+    <ul>
+        <li><strong>Academy of Contemporary Music (ACM):</strong> Contemporary Music Performance Diploma</li>
+        <li><strong>GCSEs:</strong> Including Music (Grade A), English, and Mathematics</li>
+    </ul>
+</div>
+
+<div id="toast">Email copied to clipboard!</div>
+
+<script>
+function handleEmailClick(event) {
+    const email = 'andyknightguitarist@hotmail.co.uk';
+    
+    // Copy email to clipboard
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(email).then(() => {
+            showToast();
+        });
+    }
+}
+
+function showToast() {
+    const toast = document.getElementById("toast");
+    toast.className = "show";
+    setTimeout(() => { 
+        toast.className = toast.className.replace("show", ""); 
+    }, 2500);
+}
+</script>
+
+</body>
+</html>
